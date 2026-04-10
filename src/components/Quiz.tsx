@@ -44,7 +44,7 @@ const Quiz = () => {
               placeholder="Digite seu nome aqui"
               value={nameInput}
               onChange={setNameInput}
-              onNext={() => { setUserName(nameInput); goTo(3); }}
+              onNext={() => { setUserName(nameInput.trim()); goTo(3); }}
             />
           )}
           {step === 3 && (
