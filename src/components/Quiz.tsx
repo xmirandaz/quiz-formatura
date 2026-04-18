@@ -3,6 +3,7 @@ import QuizLogo from "@/components/QuizLogo";
 import QuizProgressBar from "@/components/QuizProgressBar";
 import QuizOptionCard from "@/components/QuizOptionCard";
 import QuizButton from "@/components/QuizButton";
+import PricingCards from "@/components/PricingCards";
 import { Check } from "lucide-react";
 
 const Quiz = () => {
@@ -189,7 +190,8 @@ const Quiz = () => {
               onSelect={(o) => autoAdvance(o, 18)}
             />
           )}
-          {step === 18 && <Step16 userName={userName} course={course} />}
+          {step === 18 && <Step16 userName={userName} course={course} onNext={() => goTo(19)} />}
+          {step === 19 && <PricingCards userName={userName} />}
         </div>
 
         <footer className="mt-10 text-center text-[10px] text-muted-foreground leading-relaxed">
@@ -367,7 +369,7 @@ const Step14 = ({ onNext }: { onNext: () => void }) => {
   );
 };
 
-const Step16 = ({ userName, course }: { userName: string; course: string }) => {
+const Step16 = ({ userName, course, onNext }: { userName: string; course: string; onNext: () => void }) => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [msg, setMsg] = useState(`Mapeando traços de ${userName}...`);
@@ -416,7 +418,7 @@ const Step16 = ({ userName, course }: { userName: string; course: string }) => {
         <span className="glow-text">{course}</span>{" "}
         exigem fotos que transmitam autoridade, brilho e a grandiosidade da sua formatura. Conseguimos liberar para você a tecnologia de alta fidelidade que antes era restrita apenas às grandes marcas.
       </p>
-      <QuizButton href="https://studioluna.site/formatura10">Resgatar meu ensaio exclusivo →</QuizButton>
+      <QuizButton onClick={onNext}>Resgatar meu ensaio exclusivo →</QuizButton>
     </div>
   );
 };
