@@ -13,6 +13,7 @@ const Quiz = () => {
   const [courseInput, setCourseInput] = useState("");
   const [selected, setSelected] = useState("");
   const [animKey, setAnimKey] = useState(0);
+  const [pain, setPain] = useState<"ead" | "preco" | "tempo" | "vergonha" | "">("");
 
   const goTo = useCallback((s: number) => {
     setSelected("");
@@ -25,10 +26,10 @@ const Quiz = () => {
     setTimeout(() => goTo(nextStep), 300);
   };
 
-  const showProgress = step >= 2 && step <= 15;
-  // Steps 2-15 map to progress 1-14 out of 14
+  const showProgress = step >= 2 && step <= 17;
+  // Steps 2-17 map to progress 1-16 out of 16
   const progressStep = step - 1;
-  const progressTotal = 14;
+  const progressTotal = 16;
 
   return (
     <div className="quiz-gradient min-h-screen flex flex-col items-center">
@@ -91,6 +92,29 @@ const Quiz = () => {
           {step === 7 && <Step7 onNext={() => goTo(8)} />}
           {step === 8 && (
             <StepOptions
+              question="Para te entender e personalizar o seu ensaio, qual dessas situações melhor descreve seu momento?"
+              options={[
+                "🎓 Fiz EAD e não quero que minha conquista passe em branco.",
+                "💸 Acho os ensaios tradicionais caros e quero um preço justo.",
+                "⏳ Não tenho tempo para ensaios longos e cansativos.",
+                "🥰 Tenho vergonha de posar e quero me sentir bem na foto.",
+              ]}
+              selected={selected}
+              onSelect={(o) => {
+                const map: Record<string, "ead" | "preco" | "tempo" | "vergonha"> = {
+                  "🎓 Fiz EAD e não quero que minha conquista passe em branco.": "ead",
+                  "💸 Acho os ensaios tradicionais caros e quero um preço justo.": "preco",
+                  "⏳ Não tenho tempo para ensaios longos e cansativos.": "tempo",
+                  "🥰 Tenho vergonha de posar e quero me sentir bem na foto.": "vergonha",
+                };
+                setPain(map[o]);
+                autoAdvance(o, 9);
+              }}
+            />
+          )}
+          {step === 9 && <Step9 pain={pain} userName={userName} onNext={() => goTo(10)} />}
+          {step === 10 && (
+            <StepOptions
               question="Quando você imagina seu ensaio de formatura, o que mais importa?"
               options={[
                 "💎 Status e Impacto: Fotos que param o feed do Instagram.",
@@ -98,10 +122,10 @@ const Quiz = () => {
                 "✨ Praticidade: Ter o ensaio dos sonhos sem perder dinheiro e horas do meu dia.",
               ]}
               selected={selected}
-              onSelect={(o) => autoAdvance(o, 9)}
+              onSelect={(o) => autoAdvance(o, 11)}
             />
           )}
-          {step === 9 && (
+          {step === 11 && (
             <StepOptions
               question="Você acredita que um ensaio de formatura bem feito é:"
               options={[
@@ -110,10 +134,10 @@ const Quiz = () => {
                 "🙂 Algo simples já resolve",
               ]}
               selected={selected}
-              onSelect={(o) => autoAdvance(o, 10)}
+              onSelect={(o) => autoAdvance(o, 12)}
             />
           )}
-          {step === 10 && (
+          {step === 12 && (
             <StepOptions
               question="Na sua cidade, quanto você acha que custa um ensaio de formatura profissional?"
               options={[
@@ -122,10 +146,10 @@ const Quiz = () => {
                 "💲💲💲 R$ 1.000 a R$ 2.000",
               ]}
               selected={selected}
-              onSelect={(o) => autoAdvance(o, 11)}
+              onSelect={(o) => autoAdvance(o, 13)}
             />
           )}
-          {step === 11 && (
+          {step === 13 && (
             <StepOptions
               question="Quando você receber o seu ensaio, você vai querer ver:"
               options={[
@@ -134,11 +158,11 @@ const Quiz = () => {
                 "💸 Um resultado condizente com o que coube no meu bolso",
               ]}
               selected={selected}
-              onSelect={(o) => autoAdvance(o, 12)}
+              onSelect={(o) => autoAdvance(o, 14)}
             />
           )}
-          {step === 12 && <Step12 onNext={() => goTo(13)} />}
-          {step === 13 && (
+          {step === 14 && <Step12 onNext={() => goTo(15)} />}
+          {step === 15 && (
             <StepOptions
               question="Qual estilo de ensaio combina mais com você?"
               options={[
@@ -148,11 +172,11 @@ const Quiz = () => {
                 "🎓 Clássico tradicional",
               ]}
               selected={selected}
-              onSelect={(o) => autoAdvance(o, 14)}
+              onSelect={(o) => autoAdvance(o, 16)}
             />
           )}
-          {step === 14 && <Step14 onNext={() => goTo(15)} />}
-          {step === 15 && (
+          {step === 16 && <Step14 onNext={() => goTo(17)} />}
+          {step === 17 && (
             <StepOptions
               question="Quando será sua formatura?"
               options={[
@@ -162,10 +186,10 @@ const Quiz = () => {
                 "🎉 Já aconteceu",
               ]}
               selected={selected}
-              onSelect={(o) => autoAdvance(o, 16)}
+              onSelect={(o) => autoAdvance(o, 18)}
             />
           )}
-          {step === 16 && <Step16 userName={userName} course={course} />}
+          {step === 18 && <Step16 userName={userName} course={course} />}
         </div>
 
         <footer className="mt-10 text-center text-[10px] text-muted-foreground leading-relaxed">
@@ -252,6 +276,40 @@ const Step7 = ({ onNext }: { onNext: () => void }) => (
     <QuizButton onClick={onNext}>Personalizar meu ensaio agora →</QuizButton>
   </div>
 );
+
+const Step9 = ({ pain, userName, onNext }: { pain: string; userName: string; onNext: () => void }) => {
+  const variants: Record<string, { title: string; body: string; img: string }> = {
+    ead: {
+      title: `${userName}, nós te entendemos: sua conquista merece ser celebrada.`,
+      body: "A Claudia também sentia que faltava o registro oficial por ter feito EAD. Veja a reação dela e de sua mãe ao ver que o Studio Luna realizou esse sonho sem ela sair de casa!",
+      img: "https://i.ibb.co/TMHS7XF8/ead.webp",
+    },
+    preco: {
+      title: `${userName}, nós te entendemos: você não precisa pagar uma fortuna por uma foto incrível.`,
+      body: "A Anelise estava indignada com os preços abusivos das agências tradicionais. Olha só o alívio dela ao descobrir nossa tecnologia!",
+      img: "https://i.ibb.co/ccw5n443/caro.webp",
+    },
+    tempo: {
+      title: `${userName}, nós te entendemos: seu tempo é valioso demais para ser perdido em estúdios.`,
+      body: "O Rogério vive na correria e não podia perder um dia inteiro com fotos. Confira o feedback dele sobre a praticidade do nosso processo!",
+      img: "https://i.ibb.co/PzG5DN1f/tempo.webp",
+    },
+    vergonha: {
+      title: `${userName}, nós te entendemos: a foto perfeita é aquela em que você se sente confiante.`,
+      body: "A Andréia sempre travava na frente das câmeras e odiava fazer poses. Veja como a nossa IA devolveu a autoestima dela com naturalidade!",
+      img: "https://i.ibb.co/Y7sqBhmm/vergonha.webp",
+    },
+  };
+  const v = variants[pain] ?? variants.ead;
+  return (
+    <div className="flex flex-col gap-5 text-center">
+      <h2 className="text-xl font-bold text-foreground leading-tight">{v.title}</h2>
+      <p className="text-muted-foreground text-sm">{v.body}</p>
+      <img src={v.img} alt="Print de conversa" className="w-full h-auto rounded-2xl" />
+      <QuizButton onClick={onNext}>Explicar minhas preferências →</QuizButton>
+    </div>
+  );
+};
 
 const Step12 = ({ onNext }: { onNext: () => void }) => (
   <div className="flex flex-col gap-5 text-center">
