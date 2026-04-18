@@ -369,7 +369,7 @@ const Step14 = ({ onNext }: { onNext: () => void }) => {
   );
 };
 
-const Step16 = ({ userName, course }: { userName: string; course: string }) => {
+const Step16 = ({ userName, course, onNext }: { userName: string; course: string; onNext: () => void }) => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [msg, setMsg] = useState(`Mapeando traços de ${userName}...`);
