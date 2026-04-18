@@ -3,6 +3,7 @@ import QuizLogo from "@/components/QuizLogo";
 import QuizProgressBar from "@/components/QuizProgressBar";
 import QuizOptionCard from "@/components/QuizOptionCard";
 import QuizButton from "@/components/QuizButton";
+import PricingCards from "@/components/PricingCards";
 import { Check } from "lucide-react";
 
 const Quiz = () => {
