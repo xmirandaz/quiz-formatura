@@ -40,7 +40,7 @@ const packages: Pkg[] = [
   },
   {
     id: "diamante",
-    name: "PACOTE DIAMANTE",
+    name: "PACOTE DELUXE",
     emoji: "💎",
     price: "R$69,90",
     features: ["📸 10 Fotos em Alta Definição", "👨‍👩‍👧‍👦 +3 Pessoas (Família completa)", "⚡ Entrega VIP (24 Horas)"],
@@ -53,6 +53,7 @@ const PricingCards = ({ userName }: { userName: string }) => {
   const ctaRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
     const colors = ["#9b30ff", "#3b82f6", "#10b981", "#fbbf24"];
     const fire = (originX: number) =>
       confetti({
